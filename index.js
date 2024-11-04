@@ -15,20 +15,22 @@ app.get('/', (req, res) => {
 
 
 const festivals = {
-    presidentsday: "17th February, 2025",
-	holi: "14th March, 2025",
+    presidentsday: {date:"17th February, 2025", month:"february"},
+	  holi: "14th March, 2025",
     rakhi:"9th August, 2025",
     diwali:"20th October, 2025",
     halloween:"31st October, 2025",
     christmas:"25th December, 2025"
 }
 
+// /festivals?month=feb&festival=holi
 app.get('/festivals', (req, res) => {
   const festivalName = req.query.festival; // Access the genre name
-    if (!festivals[festivalName]) {
+  const month = req.query.month
+    if (!festivals[festivalName]&&!month==festivals[festivalName].month) {
 	    res.send(`Festival not found please try a different one!`);
     }
-    res.send(`${festivalName}: ${festivals[festivalName]}`);
+    res.json({ data: festivals[festivalName]});
 });
 
 // Set the application to listen a port
